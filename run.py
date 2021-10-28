@@ -22,6 +22,9 @@ class Team:
 
     def __repr__(self):
         return self.name
+    
+    def number(self):
+        return self.num
  
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
