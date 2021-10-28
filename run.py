@@ -23,15 +23,6 @@ class Team:
     def __repr__(self):
         return self.name
  
-T1 = Team(input(), 1)
-T2 = Team(input(), 2) 
-T3 = Team(input(), 3)
-T4 = Team(input(), 4)
-T5 = Team(input(), 5)
-T6 = Team(input(), 6)
-T7 = Team(input(), 7)
-T8 = Team(input(), 8)
-
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
@@ -59,6 +50,14 @@ x = FancyPropositions("x")
 y = FancyPropositions("y")
 z = FancyPropositions("z")
 
+T1 = Team(input(), 1)
+T2 = Team(input(), 2) 
+T3 = Team(input(), 3)
+T4 = Team(input(), 4)
+T5 = Team(input(), 5)
+T6 = Team(input(), 6)
+T7 = Team(input(), 7)
+T8 = Team(input(), 8)
 
 # Build an example full theory for your setting and return it.
 #
