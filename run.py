@@ -14,7 +14,23 @@ class BasicPropositions:
 
     def __repr__(self):
         return f"A.{self.data}"
+class Team:
 
+    def __init__(self, name, num):
+        self.name = name
+        self.num = num
+
+    def __repr__(self):
+        return self.name
+ 
+T1 = Team(input(), 1)
+T2 = Team(input(), 2) 
+T3 = Team(input(), 3)
+T4 = Team(input(), 4)
+T5 = Team(input(), 5)
+T6 = Team(input(), 6)
+T7 = Team(input(), 7)
+T8 = Team(input(), 8)
 
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
