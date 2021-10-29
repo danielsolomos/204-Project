@@ -116,7 +116,8 @@ T8 = Team(input(), 8)
 #  This restriction is fairly minimal, and if there is any concern, reach out to the teaching staff to clarify
 #  what the expectations are.
 def example_theory():
-    # Add custom constraints by creating formulas with the variables you created. 
+     
+    #this constraint makes sure every day has a game, with an away team and a home team
     list week = []
     for y in range(grid):
         x = 0
@@ -127,6 +128,20 @@ def example_theory():
     if week(length == 14)
         E.add_constraint(grid[0][0] && grid[0][1] && grid[0][2] && grid[0][3] && grid[0][4] && grid[0][5] && grid[0][6] && grid[0][7] && grid[0][8] && grid[0][9]
                          && grid[0][10] && grid[0][11] && grid[0][12] && grid[0][13])
+    
+    #this constraint checks the grid to make sure that a team cannot play itself
+    for row in grid:
+        for column in grid:
+            column [0] != column[1]
+            column [2] != column[3]
+            column [4] != column[5]
+            column [6] != column[7]
+            column [8] != column[9]
+            column [10] != column[11]
+            column [12] != column[13]
+            constraint.add_exactly_one(E, grid[x,y])
+            
+
     # Implication
     E.add_constraint(y >> z)
     # Negate a formula
