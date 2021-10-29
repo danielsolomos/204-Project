@@ -10,14 +10,6 @@ E = Encoding()
 
 # To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
-class BasicPropositions:
-
-    def __init__(self, data):
-        self.data = data
-
-    def __repr__(self):
-        return f"A.{self.data}"
-@proposition(E)
 class Team:
 
     def __init__(self, name, num):
@@ -57,6 +49,15 @@ class game:
         grid.append(" ")
     for i in range(height):
         grid.append(" ")
+        
+@proposition(E)
+class BasicPropositions:
+
+    def __init__(self, data):
+        self.data = data
+
+    def __repr__(self):
+        return f"A.{self.data}"
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
