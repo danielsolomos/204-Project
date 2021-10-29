@@ -145,13 +145,14 @@ def example_theory():
     for row in grid:
         for column in grid:
             for i in range(13):
-                if (i%0==0):
+                if (i%2==0):
                     if (column[i]==column[i+2]or column[i]==column[i+3]):
                         E.add_constraint(column [i]~ column [i+4] && column[i]~column[i+5])
                 else:
                     if(column[i]==column[i+1] or column[i]==column[i+2]):
                         E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4]
 
+    
     # Implication
     E.add_constraint(y >> z)
     # Negate a formula
