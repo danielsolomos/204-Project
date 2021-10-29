@@ -117,7 +117,15 @@ T8 = Team(input(), 8)
 #  what the expectations are.
 def example_theory():
     # Add custom constraints by creating formulas with the variables you created. 
-    E.add_constraint((a | b) & ~x)
+    list week = []
+    for y in range(grid):
+        x = 0
+       week.add(grid[0][y])
+    for i in week:
+        if (week[i]==null):
+            week.remove(week[i])
+    if week(length == 14)
+        E.add_constraint(Everyday has a game)
     # Implication
     E.add_constraint(y >> z)
     # Negate a formula
