@@ -14,6 +14,7 @@ class BasicPropositions:
 
     def __repr__(self):
         return f"A.{self.data}"
+@proposition(E)
 class Team:
 
     def __init__(self, name, num):
