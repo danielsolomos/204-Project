@@ -10,36 +10,41 @@ E = Encoding()
 
 # To create propositions, create classes for them first, annotated with "@proposition" and the Encoding
 @proposition(E)
-class Team:
+class BasicPropositions:
 
-    def __init__(self, name, num):
-        self.name = name
+    def __init__(self, data):
+        self.data = data
+
+    def __repr__(self):
+        return f"A.{self.data}"
+
+@proposition(E)
+class TeamNumber:
+
+    def __init__(self, num):
         self.num = num
 
     def __repr__(self):
-        return self.name
-    
-    def number(self):
-        return self.num
+        return f"Team.{self.name},{self.num}"
 
 @proposition(E)
-class gameLocation:
+class GameLocation:
     def __init__(self,loc,num) -> None:
         self.loc = loc
         self.num = num
 
     def __repr__(self) -> str:
-        return self.loc
+        return f"GameLocation.{self.loc},{self.num}"
     
 @proposition(E)
-class game:
+class Game:
     def __init__(self, date, team1, team2) -> None:
         self.date = date
         self.team1 = team1
         self.team2 = team2
     
     def __repr__(self) -> str:
-        return f"Game({self.date},{self.team1},{self.team2}"
+        return f"Game.{self.date},{self.team1},{self.team2}"
 
     width = int(14)
     height = int(3)
@@ -51,13 +56,24 @@ class game:
         grid.append(" ")
         
 @proposition(E)
-class BasicPropositions:
+class Day:
+    def __init__(self, day) -> None:
+        self.day = day
+        
+    def __repr__(self) -> str:
+        return f"Day.{self.date}"
 
-    def __init__(self, data):
-        self.data = data
+@proposition(E)
+class Team:
+    def __init__(self, location, teamNum, teamName) -> None:
+        self.location = location
+        self.teamNum = teamNum
+        self.teamName = teamName
+        #teamName is used so when we display the schedule, it displays the team name rather than the number
+        
+     def __repr__(self) -> str:
+        return f"Team.{self.location}, {self.teamNum}, {self.teamName}"
 
-    def __repr__(self):
-        return f"A.{self.data}"
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
