@@ -129,7 +129,7 @@ def example_theory():
         E.add_constraint(grid[0][0] && grid[0][1] && grid[0][2] && grid[0][3] && grid[0][4] && grid[0][5] && grid[0][6] && grid[0][7] && grid[0][8] && grid[0][9]
                          && grid[0][10] && grid[0][11] && grid[0][12] && grid[0][13])
     
-    #this constraint checks the grid to make sure that a team cannot play itself
+    #this constraint checks the grid to make sure that a team cannot play itself and that one team is home and another is away for every game
     for row in grid:
         for column in grid:
             column [0] != column[1]
@@ -140,7 +140,6 @@ def example_theory():
             column [10] != column[11]
             column [12] != column[13]
             constraint.add_exactly_one(E, grid[x,y])
-            
 
     # Implication
     E.add_constraint(y >> z)
