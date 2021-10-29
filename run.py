@@ -140,6 +140,17 @@ def example_theory():
             column [10] != column[11]
             column [12] != column[13]
             constraint.add_exactly_one(E, grid[x,y])
+    
+    #this constraint checks to make sure a team cannot play a game three days in a row
+    for row in grid:
+        for column in grid:
+            for i in range(13):
+                if (i%0==0):
+                    if (column[i]==column[i+2]or column[i]==column[i+3]):
+                        E.add_constraint(column [i]~ column [i+4] && column[i]~column[i+5])
+                else:
+                    if(column[i]==column[i+1] or column[i]==column[i+2]):
+                        E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4]
 
     # Implication
     E.add_constraint(y >> z)
