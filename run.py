@@ -125,7 +125,8 @@ def example_theory():
         if (week[i]==null):
             week.remove(week[i])
     if week(length == 14)
-        E.add_constraint(Everyday has a game)
+        E.add_constraint(grid[0][0] && grid[0][1] && grid[0][2] && grid[0][3] && grid[0][4] && grid[0][5] && grid[0][6] && grid[0][7] && grid[0][8] && grid[0][9]
+                         && grid[0][10] && grid[0][11] && grid[0][12] && grid[0][13])
     # Implication
     E.add_constraint(y >> z)
     # Negate a formula
