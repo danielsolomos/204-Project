@@ -29,7 +29,34 @@ class Team:
     
     def number(self):
         return self.num
- 
+
+@proposition(E)
+class gameLocation:
+    def __init__(self,loc,num) -> None:
+        self.loc = loc
+        self.num = num
+
+    def __repr__(self) -> str:
+        return self.loc
+    
+@proposition(E)
+class game:
+    def __init__(self, date, team1, team2) -> None:
+        self.date = date
+        self.team1 = team1
+        self.team2 = team2
+    
+    def __repr__(self) -> str:
+        return f"Game({self.date},{self.team1},{self.team2}"
+
+    width = int(14)
+    height = int(3)
+    grid = []
+    i = int(0)
+    for i in range(width):
+        grid.append(" ")
+    for i in range(height):
+        grid.append(" ")
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
