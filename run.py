@@ -82,24 +82,7 @@ class Team:
 # For a complete module reference, see https://bauhaus.readthedocs.io/en/latest/bauhaus.html
 @constraint.at_least_one(E)
 @proposition(E)
-class FancyPropositions:
 
-    def __init__(self, data):
-        self.data = data
-
-    def __repr__(self):
-        return f"A.{self.data}"
-
-# Call your variables whatever you want
-a = BasicPropositions("a")
-b = BasicPropositions("b")   
-c = BasicPropositions("c")
-d = BasicPropositions("d")
-e = BasicPropositions("e")
-# At least one of these will be true
-x = FancyPropositions("x")
-y = FancyPropositions("y")
-z = FancyPropositions("z")
 
 T1 = Team(input(), 1)
 T2 = Team(input(), 2) 
@@ -152,6 +135,28 @@ def example_theory():
                     if(column[i]==column[i+1] or column[i]==column[i+2]):
                         E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4]
 
+    #this constraint checks the grid of games, and creates a new list to track the home and away games
+    #The loop then runs through the grid, and if the team has a home game, it would set that teams
+    #location on the list to true. There are 16 elements in the list, one for each team to have a home and away
+    #when the loop finds the team's game, it sets it to true whether or not it is home or away. 
+    list week = []
+        for y in range(16):
+            x = 0
+           week.add(grid[0][y])
+        for i in week:
+            if (week[i]==null):
+                week.remove(week[i])
+    for row in grid:
+        for column in grid:
+            counter = 0:
+            for i in range(16):
+                if (i%2==0):
+                    week[column[i]]=True
+                else:
+                    week[column[i]+1]=True
+    for i in week:
+        if(week[i]==True):
+            E.add_exactly_one(E,*week)
     
     # Implication
     E.add_constraint(y >> z)
