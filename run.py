@@ -133,7 +133,7 @@ def example_theory():
                         E.add_constraint(column [i]~ column [i+4] && column[i]~column[i+5])
                 else:
                     if(column[i]==column[i+1] or column[i]==column[i+2]):
-                        E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4]
+                        E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4])
 
     #this constraint checks the grid of games, and creates a new list to track the home and away games
     #The loop then runs through the grid, and if the team has a home game, it would set that teams
