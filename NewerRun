@@ -1,0 +1,100 @@
+from itertools import groupby
+from bauhaus import Encoding, proposition, constraint
+from bauhaus.utils import count_solutions
+import random
+import pprint
+
+# Encoding that will store all of your constraints
+E = Encoding()
+
+rows = 3
+columns = 7
+week = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
+games = []
+days = []
+@proposition(E)
+class game:
+    def __init__(self,team1,team2):
+        self.t1 = team1
+        self.t2 = team2
+    
+    def team1(self):
+        return self.t1
+    def team2(self):
+        return self.t2
+
+    def __repr__(self) -> str:
+        return f"games({self.t1}, {self.t2})"
+
+@proposition(E)
+class day:
+    def __init__(self,g1,g2,g3,day_num):
+        self.g1 = g1
+        self.g2 = g2
+        self.g3 = g3
+        self.day_num = day_num
+    
+    def game1(self):
+        return self.g1
+
+    def game2(self):
+        return self.g2
+
+    def game3(self):
+        return self.g3
+
+    def day(self):
+        return self.day_num
+
+    def __repr__(self) -> str:
+        return f"day({self.day_num, self.g1, self.g2, self.g3})"
+
+for i in range(8):
+    for j in range(8):
+        if i != j:
+            for k in range(4):
+                games.append(game(i,j))
+                id += 1
+
+
+def example_theory():
+    current_day = 0
+    
+    for x in range(columns):
+        for y in range(rows):
+            selection = random.choice(games)
+            week[y][x] = selection
+            games.remove(selection)
+    
+    
+    for x in range(columns):
+        days.append(day(week[0][x],week[1][x],week[2][x],current_day))
+        current_day += 1
+
+    for d in days:
+        check = [d.game1().team1(),d.game1().team2(),d.game2().team1(),d.game2().team2(),d.game3().team1(),d.game3().team2()]
+        if check == set(check):
+            E.add_constraint(d)
+        else:
+            E.add_constraint(~d)
+
+    T = E.compile()
+    return T
+    
+
+    
+
+    
+    
+
+
+if __name__ == "__main__":
+
+    T = example_theory()
+    
+
+    print("\nSatisfiable: %s" % T.satisfiable())
+    print("# Solutions: %d" % count_solutions(T))
+    print()
+    print("   Solution: %s" % T.solve())
+
