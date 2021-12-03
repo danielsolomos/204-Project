@@ -63,36 +63,36 @@ def no_same_team(g1, g2):
             return False
             
 def All_games_filled(day):
-    if(day.g2() != None and day.g3() != None):
+    if(day.game2() != None and day.game3() != None):
         teams = []
-        teams.append(day.g1().team1())
-        teams.append(day.g1().team2())
-        teams.append(day.g2().team1())
-        teams.append(day.g2().team2())
-        teams.append(day.g3().team1())
-        teams.append(day.g3().team2())
+        teams.append(day.game1().team1())
+        teams.append(day.game1().team2())
+        teams.append(day.game2().team1())
+        teams.append(day.game2().team2())
+        teams.append(day.game3().team1())
+        teams.append(day.game3().team2())
         teams = set(teams)
         if(teams.__len__ == 6):
             return True
         else:
               return False  
-    elif(day.g2() != None and day.g3() == None):
+    elif(day.game2() != None and day.game3() == None):
         teams = []
-        teams.append(day.g1().team1())
-        teams.append(day.g1().team2())
-        teams.append(day.g2().team1())
-        teams.append(day.g2().team2())
+        teams.append(day.game1().team1())
+        teams.append(day.game1().team2())
+        teams.append(day.game2().team1())
+        teams.append(day.game2().team2())
         teams = set(teams)
         if(teams.__len__ == 4):
             return True
         else:
               return False  
-    elif(day.g2() == None and day.g3() != None):
+    elif(day.game2() == None and day.game3() != None):
         teams = []
-        teams.append(day.g1().team1())
-        teams.append(day.g1().team2())
-        teams.append(day.g3().team1())
-        teams.append(day.g3().team2())
+        teams.append(day.game1().team1())
+        teams.append(day.game1().team2())
+        teams.append(day.game3().team1())
+        teams.append(day.game3().team2())
         teams = set(teams)
         if(teams.__len__ == 4):
             return True
