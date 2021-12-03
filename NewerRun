@@ -57,10 +57,13 @@ for i in range(8):
                 games.append(game(i,j))
                 
 def no_same_team(g1, g2):
-        if(isinstance(g1, int) or isinstance(g2, int)):
+
+        if(isinstance(g2, int)):
             return True
-        elif(g1.team1() != g2.team1() and g1.team2() != g2.team1() and g1.team1() != g2.team2() and g1.team2() != g2.team2()):
+        
+        if(g1.team1() != g2.team1() and g1.team2() != g2.team1() and g1.team1() != g2.team2() and g1.team2() != g2.team2()):
             return True
+
         else:
             return False
 
@@ -117,41 +120,26 @@ def example_theory():
 
     #place the 7 extra games
     while len(temp) != 0:
-        print(temp[0])
         test = len(temp)
         for x in range(columns):
             if(isinstance(week[1][x], int) and no_same_team(temp[0], week[0][x])):
-                print(1)
                 week[1][x] = temp[0]
                 temp.remove(temp[0])
                 break
         if(len(temp) == test):
             for x in range(columns):
                 if(isinstance(week[2][x], int) and no_same_team(temp[0], week[0][x]) and no_same_team(temp[0], week[1][x])):
-                  print(2)
                   week[2][x] = temp[0]
                   temp.remove(temp[0])
                   break
         if(len(temp) == test):
             for x in range(columns):
                 if(isinstance(week[2][x], int)):
-                  print(3)
                   week[2][x] = temp[0]
                   temp.remove(temp[0])
                   break
-   
-    
-    #this constraint checks to make sure a team cannot play a game three days in a row
-    for row in week:
-        for column in week:
-            for i in range(13):
-                if (i%2==0):
-                    if (column[i]==column[i+2]or column[i]==column[i+3]):
-                        E.add_constraint(column [i]~ column [i+4] && column[i]~column[i+5])
-                else:
-                    if(column[i]==column[i+1] or column[i]==column[i+2]):
-                        E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4])
-
+        
+          
 
             
     #check if the days work
