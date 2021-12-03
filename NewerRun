@@ -92,6 +92,7 @@ def example_theory():
          if(a != len(temp)):
              break
       if(a == len(temp)):
+             break
 
             
     #check if the days work
