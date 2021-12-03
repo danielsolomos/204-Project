@@ -57,11 +57,13 @@ for i in range(8):
                 games.append(game(i,j))
                 
 def no_same_team(g1, g2):
-        if(g1.team1() != g2.team1()& g1.team2() != g2.team1()& g1.team1() != g2.team2()& g1.team2() != g2.team2()):
+        if(isinstance(g1, int) or isinstance(g2, int)):
+            return True
+        elif(g1.team1() != g2.team1()& g1.team2() != g2.team1()& g1.team1() != g2.team2()& g1.team2() != g2.team2()):
             return True
         else:
             return False
-            
+
 def All_games_filled(day):
     if(day.game2() != None and day.game3() != None):
         teams = []
@@ -96,7 +98,8 @@ def All_games_filled(day):
         else:
               return False  
     else:
-        return True 
+        return True
+
 def example_theory():
    
 
@@ -113,22 +116,31 @@ def example_theory():
         games.remove(selection)
 
     #place the 7 extra games
-    for g in temp:
-      a = len(temp)
-      for x in range(columns):
-         for y in range(2):
-              if(y == 0 & isinstance(week[1][x], int) & no_same_team(g, week[0][x])):
-                 week[1][x] = g
-                 temp.remove(g)
-                 break
-              elif( y ==1 & week[2][x] == 0 & no_same_team(g, week[0][x])& no_same_team(g, week[1][x])):
-                 week[2][x] = g
-                 temp.remove(g)  
-                 break
-         if(a != len(temp)):
-             break
-      if(a == len(temp)):
-           break
+    while len(temp) != 0:
+        print(temp[0])
+        test = len(temp)
+        for x in range(columns):
+            if(isinstance(week[1][x], int) & no_same_team(temp[0], week[0][x])):
+                print(1)
+                week[1][x] = temp[0]
+                temp.remove(temp[0])
+                break
+        if(len(temp) == test):
+            for x in range(columns):
+                if(isinstance(week[2][x], int) & no_same_team(temp[0], week[0][x])& no_same_team(temp[0], week[1][x])):
+                  print(2)
+                  week[2][x] = temp[0]
+                  temp.remove(temp[0])
+                  break
+        if(len(temp) == test):
+            for x in range(columns):
+                if(isinstance(week[2][x], int)):
+                  print(3)
+                  week[2][x] = temp[0]
+                  temp.remove(temp[0])
+                  break
+        
+          
 
             
     #check if the days work
@@ -146,11 +158,11 @@ def example_theory():
         current_day += 1
 
     for d in days:
-        check = [d.game1().team1(),d.game1().team2(),d.game2().team1(),d.game2().team2(),d.game3().team1(),d.game3().team2()]
-        if check == set(check):
+        if All_games_filled(d):
             E.add_constraint(d)
         else:
-            E.add_constraint(~d)
+           E.add_constraint(~d)
+        print(d)
 
     T = E.compile()
     return T
@@ -171,5 +183,4 @@ if __name__ == "__main__":
     print("# Solutions: %d" % count_solutions(T))
     print()
     print("   Solution: %s" % T.solve())
-
 
