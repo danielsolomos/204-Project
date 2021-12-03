@@ -139,8 +139,19 @@ def example_theory():
                   week[2][x] = temp[0]
                   temp.remove(temp[0])
                   break
-        
-          
+   
+    
+    #this constraint checks to make sure a team cannot play a game three days in a row
+    for row in week:
+        for column in week:
+            for i in range(13):
+                if (i%2==0):
+                    if (column[i]==column[i+2]or column[i]==column[i+3]):
+                        E.add_constraint(column [i]~ column [i+4] && column[i]~column[i+5])
+                else:
+                    if(column[i]==column[i+1] or column[i]==column[i+2]):
+                        E.add_constraint(column[i]~column[i+3] && column[i]~column[i+4])
+
 
             
     #check if the days work
