@@ -61,6 +61,45 @@ def no_same_team(g1, g2):
             return True
         else:
             return False
+            
+def All_games_filled(day):
+    if(day.g2() != None and day.g3() != None):
+        teams = []
+        teams.append(day.g1().team1())
+        teams.append(day.g1().team2())
+        teams.append(day.g2().team1())
+        teams.append(day.g2().team2())
+        teams.append(day.g3().team1())
+        teams.append(day.g3().team2())
+        teams = set(teams)
+        if(teams.__len__ == 6):
+            return True
+        else:
+              return False  
+    elif(day.g2() != None and day.g3() == None):
+        teams = []
+        teams.append(day.g1().team1())
+        teams.append(day.g1().team2())
+        teams.append(day.g2().team1())
+        teams.append(day.g2().team2())
+        teams = set(teams)
+        if(teams.__len__ == 4):
+            return True
+        else:
+              return False  
+    elif(day.g2() == None and day.g3() != None):
+        teams = []
+        teams.append(day.g1().team1())
+        teams.append(day.g1().team2())
+        teams.append(day.g3().team1())
+        teams.append(day.g3().team2())
+        teams = set(teams)
+        if(teams.__len__ == 4):
+            return True
+        else:
+              return False  
+    else:
+        return False  
 def example_theory():
    
 
