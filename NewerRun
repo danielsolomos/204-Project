@@ -71,8 +71,7 @@ def All_games_filled(day):
         teams.append(day.game2().team2())
         teams.append(day.game3().team1())
         teams.append(day.game3().team2())
-        teams = set(teams)
-        if(teams.__len__ == 6):
+        if(teams == set(teams)):
             return True
         else:
               return False  
@@ -82,8 +81,7 @@ def All_games_filled(day):
         teams.append(day.game1().team2())
         teams.append(day.game2().team1())
         teams.append(day.game2().team2())
-        teams = set(teams)
-        if(teams.__len__ == 4):
+        if(teams = set(teams)):
             return True
         else:
               return False  
@@ -93,8 +91,7 @@ def All_games_filled(day):
         teams.append(day.game1().team2())
         teams.append(day.game3().team1())
         teams.append(day.game3().team2())
-        teams = set(teams)
-        if(teams.__len__ == 4):
+        if(teams == set(teams)):
             return True
         else:
               return False  
