@@ -23,7 +23,7 @@ class game:
         return self.t2
 
     def __repr__(self) -> str:
-        return f"games({self.t1}, {self.t2})"
+        return f"{self.t1} vs {self.t2}"
 
 @proposition(E)
 class day:
@@ -47,19 +47,7 @@ class day:
 
     def __repr__(self) -> str:
         return f"Day{self.day_num}: Game 1 = {self.g1}, Game 2 = {self.g2}, Game 3 = {self.g3} \n"
-@proposition(E)
-class game:
-    def __init__(self,team1,team2):
-        self.t1 = team1
-        self.t2 = team2
-    
-    def team1(self):
-        return self.t1
-    def team2(self):
-        return self.t2
 
-    def __repr__(self) -> str:
-        return f"{self.t1} vs {self.t2}"
 
 @proposition(E)
 class weekp:
