@@ -105,18 +105,34 @@ def All_games_filled(day):
 
 def example_theory():
    
-
+    temp = []
+    counter = [0,0,0,0,0,0,0,0]
+    #get a pool of games for the week, need 14 games, each team 3-4 times, the second loop makes the program not run too long
+    while len(temp) != 11:
+        selection = random.choice(games)
+        t1 = selection.team1()
+        t2 = selection.team2()
+        if(counter[t1] != 3 and counter[t2] != 3):
+            temp.append(selection)
+            games.remove(selection)
+            counter[t1] += 1
+            counter[t2] += 1
+    i = 0
+    while len(temp) != 14:
+        selection = games[i]
+        t1 = selection.team1()
+        t2 = selection.team2()
+        if(counter[t1] != 4 and counter[t2] != 4):
+            temp.append(selection)
+            games.remove(selection)
+            counter[t1] += 1
+            counter[t2] += 1
+        i+= 1
     #Put a game in each day
     for x in range(columns):
-        selection = random.choice(games)
+        selection = random.choice(temp)
         week[0][x] = selection
-        games.remove(selection)
-    #get 7 more random games
-    temp = []
-    for x in range(columns):
-        selection = random.choice(games)
-        temp.append(selection)
-        games.remove(selection)
+        temp.remove(selection)
 
     #place the 7 extra games
     while len(temp) != 0:
@@ -166,10 +182,6 @@ def example_theory():
     T = E.compile()
     return T
     
-
-    
-
-    
     
 
 
@@ -182,4 +194,5 @@ if __name__ == "__main__":
     print("# Solutions: %d" % count_solutions(T))
     print()
     print("   Solution: %s" % T.solve())
+
 
