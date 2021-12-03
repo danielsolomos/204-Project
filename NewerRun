@@ -59,7 +59,7 @@ for i in range(8):
 def no_same_team(g1, g2):
         if(isinstance(g1, int) or isinstance(g2, int)):
             return True
-        elif(g1.team1() != g2.team1()& g1.team2() != g2.team1()& g1.team1() != g2.team2()& g1.team2() != g2.team2()):
+        elif(g1.team1() != g2.team1() and g1.team2() != g2.team1() and g1.team1() != g2.team2() and g1.team2() != g2.team2()):
             return True
         else:
             return False
@@ -120,14 +120,14 @@ def example_theory():
         print(temp[0])
         test = len(temp)
         for x in range(columns):
-            if(isinstance(week[1][x], int) & no_same_team(temp[0], week[0][x])):
+            if(isinstance(week[1][x], int) and no_same_team(temp[0], week[0][x])):
                 print(1)
                 week[1][x] = temp[0]
                 temp.remove(temp[0])
                 break
         if(len(temp) == test):
             for x in range(columns):
-                if(isinstance(week[2][x], int) & no_same_team(temp[0], week[0][x])& no_same_team(temp[0], week[1][x])):
+                if(isinstance(week[2][x], int) and no_same_team(temp[0], week[0][x]) and no_same_team(temp[0], week[1][x])):
                   print(2)
                   week[2][x] = temp[0]
                   temp.remove(temp[0])
