@@ -1,4 +1,5 @@
 from itertools import groupby
+from typing import Collection
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions
 import random
@@ -54,21 +55,57 @@ for i in range(8):
         if i != j:
             for k in range(4):
                 games.append(game(i,j))
-                id += 1
-
-
+                
+def no_same_team(g1, g2):
+        if(g1.team1() != g2.team1()& g1.team2() != g2.team1()& g1.team1() != g2.team2()& g1.team2() != g2.team2()):
+            return True
+        else:
+            return False
 def example_theory():
+   
+
+    #Put a game in each day
+    for x in range(columns):
+        selection = random.choice(games)
+        week[0][x] = selection
+        games.remove(selection)
+    #get 7 more random games
+    temp = []
+    for x in range(columns):
+        selection = random.choice(games)
+        temp.append(selection)
+        games.remove(selection)
+
+    #place the 7 extra games
+    for g in temp:
+      a = len(temp)
+      for x in range(columns):
+         for y in range(2):
+              if(y == 0 & isinstance(week[1][x], int) & no_same_team(g, week[0][x])):
+                 week[1][x] = g
+                 temp.remove(g)
+                 break
+              elif( y ==1 & week[2][x] == 0 & no_same_team(g, week[0][x])& no_same_team(g, week[1][x])):
+                 week[2][x] = g
+                 temp.remove(g)  
+                 break
+         if(a != len(temp)):
+             break
+      if(a == len(temp)):
+
+            
+    #check if the days work
     current_day = 0
-    
     for x in range(columns):
-        for y in range(rows):
-            selection = random.choice(games)
-            week[y][x] = selection
-            games.remove(selection)
-    
-    
-    for x in range(columns):
-        days.append(day(week[0][x],week[1][x],week[2][x],current_day))
+        if(isinstance(week[1][x], int)):
+            if(isinstance(week[2][x], int)):
+                days.append(day(week[0][x],None,None,current_day))
+            else:
+                days.append(day(week[0][x],None,week[2][x],current_day))
+        elif(isinstance(week[2][x], int)):
+            days.append(day(week[0][x],week[1][x],None,current_day))
+        else:
+            days.append(day(week[0][x],week[1][x],week[2][x],current_day))
         current_day += 1
 
     for d in days:
@@ -97,4 +134,5 @@ if __name__ == "__main__":
     print("# Solutions: %d" % count_solutions(T))
     print()
     print("   Solution: %s" % T.solve())
+
 
