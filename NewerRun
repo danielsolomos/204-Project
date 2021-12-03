@@ -48,14 +48,43 @@ class day:
         return self.day_num
 
     def __repr__(self) -> str:
-        return f"day({self.day_num, self.g1, self.g2, self.g3})"
+        return f"Day{self.day_num}: Game 1 = {self.g1}, Game 2 = {self.g2}, Game 3 = {self.g3} \n"
+@proposition(E)
+class game:
+    def __init__(self,team1,team2):
+        self.t1 = team1
+        self.t2 = team2
+    
+    def team1(self):
+        return self.t1
+    def team2(self):
+        return self.t2
+
+    def __repr__(self) -> str:
+        return f"{self.t1} vs {self.t2}"
+
+@proposition(E)
+class weekp:
+    def __init__(self,days, week_num):
+        self.days = days
+        self.week_num = week_num
+
+    def days(self):
+        return self.days
+    
+    def week_num(self):
+        return self.week_num
+
+    def __repr__(self) -> str:
+        return f"Week{self.week_num}:\n {self.days}"
 
 for i in range(8):
     for j in range(8):
         if i != j:
             for k in range(4):
                 games.append(game(i,j))
-                
+
+                      
 def no_same_team(g1, g2):
 
         if(isinstance(g2, int)):
@@ -103,11 +132,10 @@ def All_games_filled(day):
     else:
         return True
 
-def example_theory():
-   
+def make_week(t):
     temp = []
     counter = [0,0,0,0,0,0,0,0]
-    #get a pool of games for the week, need 14 games, each team 3-4 times, the second loop makes the program not run too long
+    #get a pool of games for the week
     while len(temp) != 11:
         selection = random.choice(games)
         t1 = selection.team1()
@@ -155,8 +183,6 @@ def example_theory():
                   temp.remove(temp[0])
                   break
         
-          
-
             
     #check if the days work
     current_day = 0
@@ -172,15 +198,30 @@ def example_theory():
             days.append(day(week[0][x],week[1][x],week[2][x],current_day))
         current_day += 1
 
+
     for d in days:
         if All_games_filled(d):
             E.add_constraint(d)
         else:
            E.add_constraint(~d)
-        print(d)
 
-    T = E.compile()
-    return T
+    return weekp(days,t)
+
+def example_theory():
+   
+   #make a schedule, computer cant seem to process 3 weeks
+   sch = []
+   for x in range(2):
+        sch.append(make_week(x))
+
+   for i in sch:
+       print(i,"\n")
+   T = E.compile()
+   return T
+    
+
+    
+
     
     
 
@@ -192,7 +233,6 @@ if __name__ == "__main__":
 
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
-    print()
-    print("   Solution: %s" % T.solve())
+
 
 
