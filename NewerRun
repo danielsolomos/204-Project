@@ -10,9 +10,7 @@ E = Encoding()
 
 rows = 3
 columns = 7
-week = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
 games = []
-days = []
 @proposition(E)
 class game:
     def __init__(self,team1,team2):
@@ -133,6 +131,8 @@ def All_games_filled(day):
         return True
 
 def make_week(t):
+    week = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
+    days = []
     temp = []
     counter = [0,0,0,0,0,0,0,0]
     #get a pool of games for the week
@@ -161,7 +161,6 @@ def make_week(t):
         selection = random.choice(temp)
         week[0][x] = selection
         temp.remove(selection)
-
     #place the 7 extra games
     while len(temp) != 0:
         test = len(temp)
@@ -198,7 +197,6 @@ def make_week(t):
             days.append(day(week[0][x],week[1][x],week[2][x],current_day))
         current_day += 1
 
-
     for d in days:
         if All_games_filled(d):
             E.add_constraint(d)
@@ -233,6 +231,7 @@ if __name__ == "__main__":
 
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
+
 
 
 
