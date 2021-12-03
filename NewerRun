@@ -81,7 +81,7 @@ def All_games_filled(day):
         teams.append(day.game1().team2())
         teams.append(day.game2().team1())
         teams.append(day.game2().team2())
-        if(teams = set(teams)):
+        if(teams == set(teams)):
             return True
         else:
               return False  
