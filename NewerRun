@@ -99,7 +99,7 @@ def All_games_filled(day):
         else:
               return False  
     else:
-        return False  
+        return True 
 def example_theory():
    
 
