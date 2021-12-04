@@ -23,7 +23,7 @@ class game:
         return self.t2
 
     def __repr__(self) -> str:
-        return f"{self.t1} vs {self.t2}"
+        return f"{self.t1 + 1} vs {self.t2 + 1}"
 
 @proposition(E)
 class day:
@@ -46,23 +46,23 @@ class day:
         return self.day_num
 
     def __repr__(self) -> str:
-        return f"Day{self.day_num}: Game 1 = {self.g1}, Game 2 = {self.g2}, Game 3 = {self.g3} \n"
+        return f"Day{self.day_num + 1}: Game 1 = {self.g1}, Game 2 = {self.g2}, Game 3 = {self.g3} \n"
 
 
 @proposition(E)
 class weekp:
     def __init__(self,days, week_num):
         self.days = days
-        self.week_num = week_num
+        self.week_n = week_num
 
     def days(self):
         return self.days
     
     def week_num(self):
-        return self.week_num
+        return self.week_n
 
     def __repr__(self) -> str:
-        return f"Week{self.week_num}:\n {self.days}"
+        return f"Week{self.week_n + 1}:\n {self.days}"
 
 for i in range(8):
     for j in range(8):
@@ -119,31 +119,56 @@ def All_games_filled(day):
         return True
 
 def make_week(t):
+    #set up varriables
     week = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
     days = []
     temp = []
     counter = [0,0,0,0,0,0,0,0]
+
     #get a pool of games for the week
-    while len(temp) != 11:
-        selection = random.choice(games)
-        t1 = selection.team1()
-        t2 = selection.team2()
-        if(counter[t1] != 3 and counter[t2] != 3):
+    if t == 15:
+        temp = games.copy()
+        games.clear()
+    else:
+        while len(temp) != 10:
+            selection = random.choice(games)
+            t1 = selection.team1()
+            t2 = selection.team2()
+            if(counter[t1] != 3 and counter[t2] != 3):
+                temp.append(selection)
+                games.remove(selection)
+                counter[t1] += 1
+                counter[t2] += 1
+        if t < 8:
+            i = 0
+            while len(temp) != 14  and i < len(games):
+                selection = games[i]
+                t1 = selection.team1()
+                t2 = selection.team2()
+                if(counter[t1] != 4 and counter[t2] != 4):
+                    temp.append(selection)
+                    games.remove(selection)
+                    counter[t1] += 1
+                    counter[t2] += 1
+                i += 1
+        else:
+            i = len(games) - 1
+            while len(temp) != 14 and i > 0:
+                selection = games[i]
+                t1 = selection.team1()
+                t2 = selection.team2()
+                if(counter[t1] != 4 and counter[t2] != 4):
+                    temp.append(selection)
+                    games.remove(selection)
+                    counter[t1] += 1
+                    counter[t2] += 1
+                i -= 1
+        
+        if len(temp) < 14:
+            selection = random.choice(games)
             temp.append(selection)
             games.remove(selection)
-            counter[t1] += 1
-            counter[t2] += 1
-    i = 0
-    while len(temp) != 14:
-        selection = games[i]
-        t1 = selection.team1()
-        t2 = selection.team2()
-        if(counter[t1] != 4 and counter[t2] != 4):
-            temp.append(selection)
-            games.remove(selection)
-            counter[t1] += 1
-            counter[t2] += 1
-        i+= 1
+
     #Put a game in each day
     for x in range(columns):
         selection = random.choice(temp)
@@ -190,25 +215,20 @@ def make_week(t):
             E.add_constraint(d)
         else:
            E.add_constraint(~d)
-
     return weekp(days,t)
 
 def example_theory():
    
    #make a schedule, computer cant seem to process 3 weeks
    sch = []
-   for x in range(2):
+   for x in range(16):
         sch.append(make_week(x))
-
+    
    for i in sch:
        print(i,"\n")
+   print(games)
    T = E.compile()
    return T
-    
-
-    
-
-    
     
 
 
@@ -219,7 +239,4 @@ if __name__ == "__main__":
 
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
-
-
-
-
+    
