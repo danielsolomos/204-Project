@@ -52,17 +52,17 @@ class day:
 @proposition(E)
 class weekp:
     def __init__(self,days, week_num):
-        self.days = days
+        self.da = days
         self.week_n = week_num
 
     def days(self):
-        return self.days
+        return self.da
     
     def week_num(self):
         return self.week_n
 
     def __repr__(self) -> str:
-        return f"Week{self.week_n + 1}:\n {self.days}"
+        return f"Week{self.week_n + 1}:\n {self.da}"
 
 for i in range(8):
     for j in range(8):
@@ -124,11 +124,17 @@ def make_week(t):
     days = []
     temp = []
     counter = [0,0,0,0,0,0,0,0]
-
     #get a pool of games for the week
+    #if last week just put the last games in
     if t == 15:
         temp = games.copy()
         games.clear()
+    #second last week sometimes does not process through the chance
+    elif t == 14 or t == 13:
+        for z in range(14):
+            selection = random.choice(games)
+            temp.append(selection)
+            games.remove(selection)
     else:
         while len(temp) != 10:
             selection = random.choice(games)
@@ -168,7 +174,6 @@ def make_week(t):
             selection = random.choice(games)
             temp.append(selection)
             games.remove(selection)
-
     #Put a game in each day
     for x in range(columns):
         selection = random.choice(temp)
@@ -217,26 +222,51 @@ def make_week(t):
            E.add_constraint(~d)
     return weekp(days,t)
 
-def example_theory():
-   
-   #make a schedule, computer cant seem to process 3 weeks
-   sch = []
-   for x in range(16):
-        sch.append(make_week(x))
+def week_solver(week):
+    li = week.days()
+    H = Encoding()
+    @proposition(H)
+    class day2:
+        def __init__(self,position,D):
+            self.day = D
+            self.pos = position
+        def D(self):
+            return self.day
+        def poistion(self):
+            return self.pos
+
+        def __repr__(self) -> str:
+            return f"Day {self.pos} = Old Day {self.day}"
     
-   for i in sch:
-       print(i,"\n")
-   print(games)
-   T = E.compile()
-   return T
-    
+    #make all day combinations
+    combinations = []
+    for x in range(7):
+        for d in li:
+            b = day2(x,d)
+            combinations.append(b)
+
+    H.add_constraint(~combinations[0])
+
+    V = H.compile()
+    return count_solutions(V)
+
 
 
 if __name__ == "__main__":
 
-    T = example_theory()
+    #make a schedule, computer cant seem to process 3 weeks
+    sch = []
+    for x in range(16):
+        sch.append(make_week(x))
+
+
+    for i in sch:
+       print(i,"\n")
+
+    print("week Solutions: %s" % week_solver(sch[0]))
+    T = E.compile()
     
 
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
-    
+
