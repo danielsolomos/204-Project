@@ -238,11 +238,22 @@ def week_solver(week):
         def __repr__(self) -> str:
             return f"Day {self.pos} = Old Day {self.day}"
     
-   
- # can only have one of each day
-    for d in li:
-        constraint.add_exactly_one(H, day2(0,d), day2(1,d),day2(2,d), day2(3,d),day2(4,d), day2(5,d),day2(6,d))
+   combos = []
+    for x in range(7):
+        for d in li:
+            combos.append(day2(x,d))
 
+    # can only have one day in each position
+    constraint.add_exactly_one(H, combos[0],combos[1],combos[2],combos[3],combos[4],combos[5],combos[6])
+    constraint.add_exactly_one(H, combos[7],combos[8],combos[9],combos[10],combos[11],combos[12],combos[13])
+    constraint.add_exactly_one(H, combos[14],combos[15],combos[16],combos[17],combos[18],combos[19],combos[20])
+    constraint.add_exactly_one(H, combos[21],combos[22],combos[23],combos[24],combos[25],combos[26],combos[27])
+    constraint.add_exactly_one(H, combos[28],combos[29],combos[30],combos[31],combos[32],combos[33],combos[34])
+    constraint.add_exactly_one(H, combos[35],combos[36],combos[37],combos[38],combos[39],combos[40],combos[41])
+    constraint.add_exactly_one(H, combos[42],combos[43],combos[44],combos[45],combos[46],combos[47],combos[48])
+    #can only play 2 days in a row
+    #check postion 0
+    
     V = H.compile()
     return count_solutions(V)
 
