@@ -238,14 +238,10 @@ def week_solver(week):
         def __repr__(self) -> str:
             return f"Day {self.pos} = Old Day {self.day}"
     
-    #make all day combinations
-    combinations = []
-    for x in range(7):
-        for d in li:
-            b = day2(x,d)
-            combinations.append(b)
-
-    H.add_constraint(~combinations[0])
+   
+ # can only have one of each day
+    for d in li:
+        constraint.add_exactly_one(H, day2(0,d), day2(1,d),day2(2,d), day2(3,d),day2(4,d), day2(5,d),day2(6,d))
 
     V = H.compile()
     return count_solutions(V)
