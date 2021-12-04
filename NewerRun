@@ -1,4 +1,4 @@
-from itertools import groupby
+from itertools import combinations, groupby
 from typing import Collection
 from bauhaus import Encoding, proposition, constraint
 from bauhaus.utils import count_solutions
@@ -34,14 +34,22 @@ class day:
         self.day_num = day_num
     
     def game1(self):
-        return self.g1
+        if self.g1 == None:
+            return game(9,9)
+        else:
+            return self.g1
 
     def game2(self):
-        return self.g2
+        if self.g2 == None:
+            return game(9,9)
+        else:
+            return self.g2
 
     def game3(self):
-        return self.g3
-
+        if self.g3 == None:
+            return game(9,9)
+        else:
+            return self.g3
     def day(self):
         return self.day_num
 
@@ -73,7 +81,7 @@ for i in range(8):
                       
 def no_same_team(g1, g2):
 
-        if(isinstance(g2, int)):
+        if(isinstance(g2, int) or g2 == None or g1 == None):
             return True
         
         if(g1.team1() != g2.team1() and g1.team2() != g2.team1() and g1.team1() != g2.team2() and g1.team2() != g2.team2()):
@@ -82,8 +90,19 @@ def no_same_team(g1, g2):
         else:
             return False
 
+def day_has_same_team(d1,d2):
+    teams1 = [d1.game1().team1(), d1.game1().team2(), d1.game2().team1(), d1.game2().team2(), d1.game3().team1(), d1.game3().team2()]
+    teams2 = [d2.game1().team1(), d2.game1().team2(), d2.game2().team1(), d2.game2().team2(), d2.game3().team1(), d2.game3().team2()]
+    same = []
+    for x in teams1:
+        for y in teams2:
+            if(x != 9 and x==y):
+                same.append(x)
+    
+    return same
+
 def All_games_filled(day):
-    if(day.game2() != None and day.game3() != None):
+    if(day.game2().team1() != 9 and day.game3().team1() != 9):
         teams = []
         teams.append(day.game1().team1())
         teams.append(day.game1().team2())
@@ -95,7 +114,7 @@ def All_games_filled(day):
             return True
         else:
               return False  
-    elif(day.game2() != None and day.game3() == None):
+    elif(day.game2().team1 != 9 and day.game3().team1 == 9):
         teams = []
         teams.append(day.game1().team1())
         teams.append(day.game1().team2())
@@ -105,7 +124,7 @@ def All_games_filled(day):
             return True
         else:
               return False  
-    elif(day.game2() == None and day.game3() != None):
+    elif(day.game2().team1() == 9 and day.game3().team1 != 9):
         teams = []
         teams.append(day.game1().team1())
         teams.append(day.game1().team2())
@@ -223,6 +242,7 @@ def make_week(t):
     return weekp(days,t)
 
 def week_solver(week):
+    #setup for each week solutions
     li = week.days()
     H = Encoding()
     @proposition(H)
@@ -236,9 +256,10 @@ def week_solver(week):
             return self.pos
 
         def __repr__(self) -> str:
-            return f"Day {self.pos} = Old Day {self.day}"
+            return f"Day {self.pos} = Old Day {self.day.day()}\n"
     
-   combos = []
+
+    combos = []
     for x in range(7):
         for d in li:
             combos.append(day2(x,d))
@@ -252,10 +273,98 @@ def week_solver(week):
     constraint.add_exactly_one(H, combos[35],combos[36],combos[37],combos[38],combos[39],combos[40],combos[41])
     constraint.add_exactly_one(H, combos[42],combos[43],combos[44],combos[45],combos[46],combos[47],combos[48])
     #can only play 2 days in a row
-    #check postion 0
-    
-    V = H.compile()
-    return count_solutions(V)
+    #check postion 0, if 0 and 1 not 2
+    for x in range (0,7):
+            for y in range (7, 14):
+                a = day_has_same_team(combos[x].D(), combos[y].D())
+                if a != []:
+                    for z in range(14,21):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+    #check postion 1, if 1 and 2 not 0 or 3
+    for x in range (7,14):
+            for y in range (14, 21):
+                a = day_has_same_team(combos[x].D(), combos[y].D())
+                if a != []:
+                    for z in range(21,28):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+                    for z in range(0,7):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+    #check postion 2, if 2 and 3 not 1 or 4
+    for x in range (14,21):
+            for y in range (21, 28):
+                a = day_has_same_team(combos[x].D(), combos[y].D())
+                if a != []:
+                    for z in range(28,35):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+                    for z in range(7,14):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+    #check postion 3, if 3 and 4 not 2 or 5
+    for x in range (21,28):
+            for y in range (28, 35):
+                a = day_has_same_team(combos[x].D(), combos[y].D())
+                if a != []:
+                    for z in range(35,42):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+                    for z in range(14,21):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+    #check postion 4, if 4 and 5 not 3 or 6
+    for x in range (28,35):
+            for y in range (35, 42):
+                a = day_has_same_team(combos[x].D(), combos[y].D())
+                if a != []:
+                    for z in range(42,49):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+                    for z in range(21,28):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+    #check postion 5, if 5 and 6 not 4
+    for x in range (35,42):
+            for y in range (42, 49):
+                a = day_has_same_team(combos[x].D(), combos[y].D())
+                if a != []:
+                    for z in range(28,35):
+                        b = day_has_same_team(combos[z].D(), combos[y].D())
+                        for i in a:
+                            for j in b:
+                                if i == j:
+                                    H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
+
+    return H.compile()
 
 
 
@@ -269,11 +378,10 @@ if __name__ == "__main__":
 
     for i in sch:
        print(i,"\n")
+       A = week_solver(i)
+       print("week Solutions: %s" % count_solutions(A))
 
-    print("week Solutions: %s" % week_solver(sch[0]))
     T = E.compile()
-    
-
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
 
