@@ -256,22 +256,15 @@ def week_solver(week):
             return self.pos
 
         def __repr__(self) -> str:
-            return f"Day {self.pos} = Old Day {self.day.day()}\n"
+            return f"\nDay {self.pos} = Old Day {self.day.day()}"
     
 
     combos = []
     for x in range(7):
         for d in li:
             combos.append(day2(x,d))
+    
 
-    # can only have one day in each position
-    constraint.add_exactly_one(H, combos[0],combos[1],combos[2],combos[3],combos[4],combos[5],combos[6])
-    constraint.add_exactly_one(H, combos[7],combos[8],combos[9],combos[10],combos[11],combos[12],combos[13])
-    constraint.add_exactly_one(H, combos[14],combos[15],combos[16],combos[17],combos[18],combos[19],combos[20])
-    constraint.add_exactly_one(H, combos[21],combos[22],combos[23],combos[24],combos[25],combos[26],combos[27])
-    constraint.add_exactly_one(H, combos[28],combos[29],combos[30],combos[31],combos[32],combos[33],combos[34])
-    constraint.add_exactly_one(H, combos[35],combos[36],combos[37],combos[38],combos[39],combos[40],combos[41])
-    constraint.add_exactly_one(H, combos[42],combos[43],combos[44],combos[45],combos[46],combos[47],combos[48])
     #can only play 2 days in a row
     #check postion 0, if 0 and 1 not 2
     for x in range (0,7):
@@ -364,6 +357,22 @@ def week_solver(week):
                                 if i == j:
                                     H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
 
+    # can only have one day in each position
+    
+    constraint.add_exactly_one(H, combos[0],combos[1],combos[2],combos[3],combos[4],combos[5],combos[6])
+    constraint.add_exactly_one(H, combos[7],combos[8],combos[9],combos[10],combos[11],combos[12],combos[13])
+    constraint.add_exactly_one(H, combos[14],combos[15],combos[16],combos[17],combos[18],combos[19],combos[20])
+    constraint.add_exactly_one(H, combos[21],combos[22],combos[23],combos[24],combos[25],combos[26],combos[27])
+    constraint.add_exactly_one(H, combos[28],combos[29],combos[30],combos[31],combos[32],combos[33],combos[34])
+    constraint.add_exactly_one(H, combos[35],combos[36],combos[37],combos[38],combos[39],combos[40],combos[41])
+    constraint.add_exactly_one(H, combos[42],combos[43],combos[44],combos[45],combos[46],combos[47],combos[48])
+    constraint.add_exactly_one(H, combos[0],combos[7],combos[14],combos[21],combos[28],combos[35],combos[42])
+    constraint.add_exactly_one(H, combos[1],combos[8],combos[15],combos[22],combos[29],combos[36],combos[43])
+    constraint.add_exactly_one(H, combos[2],combos[9],combos[16],combos[23],combos[30],combos[37],combos[44])
+    constraint.add_exactly_one(H, combos[3],combos[10],combos[17],combos[24],combos[31],combos[38],combos[45])
+    constraint.add_exactly_one(H, combos[4],combos[11],combos[18],combos[25],combos[32],combos[39],combos[46])
+    constraint.add_exactly_one(H, combos[5],combos[12],combos[19],combos[26],combos[33],combos[40],combos[47])
+    constraint.add_exactly_one(H, combos[6],combos[13],combos[20],combos[27],combos[34],combos[41],combos[48])
     return H.compile()
 
 
