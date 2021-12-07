@@ -78,7 +78,7 @@ for i in range(8):
             for k in range(4):
                 games.append(game(i,j))
 
-                      
+#checks that there is no common team between games                      
 def no_same_team(g1, g2):
 
         if(isinstance(g2, int) or g2 == None or g1 == None):
@@ -89,7 +89,7 @@ def no_same_team(g1, g2):
 
         else:
             return False
-
+#Gets a list of common teams between games
 def day_has_same_team(d1,d2):
     teams1 = [d1.game1().team1(), d1.game1().team2(), d1.game2().team1(), d1.game2().team2(), d1.game3().team1(), d1.game3().team2()]
     teams2 = [d2.game1().team1(), d2.game1().team2(), d2.game2().team1(), d2.game2().team2(), d2.game3().team1(), d2.game3().team2()]
@@ -100,7 +100,7 @@ def day_has_same_team(d1,d2):
                 same.append(x)
     
     return same
-
+#Checks days to see if they do not contain a same team
 def All_games_filled(day):
     if(day.game2().team1() != 9 and day.game3().team1() != 9):
         teams = []
@@ -136,7 +136,7 @@ def All_games_filled(day):
               return False  
     else:
         return True
-
+#makes a week, because it randomly makes a schedule weeks, 14,15,16 often do not satisfy the constraints
 def make_week(t):
     #set up varriables
     week = [[0,0,0,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,0,0]]
@@ -148,12 +148,13 @@ def make_week(t):
     if t == 15:
         temp = games.copy()
         games.clear()
-    #second last week sometimes does not process through the chance
+    #Due to chance the last three weeks may not have enough of certain games to make a working week
     elif t == 14 or t == 13:
         for z in range(14):
             selection = random.choice(games)
             temp.append(selection)
             games.remove(selection)
+    #randomly pulls games to fill up a week, does not add games if there are more than 4 of a team already in the week
     else:
         while len(temp) != 10:
             selection = random.choice(games)
@@ -193,11 +194,13 @@ def make_week(t):
             selection = random.choice(games)
             temp.append(selection)
             games.remove(selection)
+            
     #Put a game in each day
     for x in range(columns):
         selection = random.choice(temp)
         week[0][x] = selection
         temp.remove(selection)
+        
     #place the 7 extra games
     while len(temp) != 0:
         test = len(temp)
@@ -220,7 +223,7 @@ def make_week(t):
                   break
         
             
-    #check if the days work
+    #Adds the games to the proper days
     current_day = 0
     for x in range(columns):
         if(isinstance(week[1][x], int)):
@@ -233,14 +236,14 @@ def make_week(t):
         else:
             days.append(day(week[0][x],week[1][x],week[2][x],current_day))
         current_day += 1
-
+    #checks if the days work
     for d in days:
         if All_games_filled(d):
             E.add_constraint(d)
         else:
            E.add_constraint(~d)
     return weekp(days,t)
-
+#checks to see how many arangments a week can have with the given days
 def week_solver(week):
     #setup for each week solutions
     li = week.days()
@@ -258,7 +261,7 @@ def week_solver(week):
         def __repr__(self) -> str:
             return f"\nDay {self.pos} = Old Day {self.day.day()}"
     
-
+    #gest a list of all positions and days combinations
     combos = []
     for x in range(7):
         for d in li:
@@ -358,7 +361,6 @@ def week_solver(week):
                                     H.add_constraint( (combos[x] & combos[y]) >> ~combos[z])
 
     # can only have one day in each position
-    
     constraint.add_exactly_one(H, combos[0],combos[1],combos[2],combos[3],combos[4],combos[5],combos[6])
     constraint.add_exactly_one(H, combos[7],combos[8],combos[9],combos[10],combos[11],combos[12],combos[13])
     constraint.add_exactly_one(H, combos[14],combos[15],combos[16],combos[17],combos[18],combos[19],combos[20])
@@ -366,6 +368,7 @@ def week_solver(week):
     constraint.add_exactly_one(H, combos[28],combos[29],combos[30],combos[31],combos[32],combos[33],combos[34])
     constraint.add_exactly_one(H, combos[35],combos[36],combos[37],combos[38],combos[39],combos[40],combos[41])
     constraint.add_exactly_one(H, combos[42],combos[43],combos[44],combos[45],combos[46],combos[47],combos[48])
+    
     #can only have one of each day
     constraint.add_exactly_one(H, combos[0],combos[7],combos[14],combos[21],combos[28],combos[35],combos[42])
     constraint.add_exactly_one(H, combos[1],combos[8],combos[15],combos[22],combos[29],combos[36],combos[43])
@@ -380,12 +383,12 @@ def week_solver(week):
 
 if __name__ == "__main__":
 
-    #make a schedule, computer cant seem to process 3 weeks
+    #make a schedule of 16 weeks
     sch = []
     for x in range(16):
         sch.append(make_week(x))
 
-
+    # print the weeks and how many solutions they have
     for i in sch:
        print(i,"\n")
        A = week_solver(i)
