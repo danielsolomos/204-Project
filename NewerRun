@@ -56,7 +56,7 @@ class day:
     def __repr__(self) -> str:
         return f"Day{self.day_num + 1}: Game 1 = {self.g1}, Game 2 = {self.g2}, Game 3 = {self.g3} \n"
 
-
+#weekp stands for week proposition
 @proposition(E)
 class weekp:
     def __init__(self,days, week_num):
