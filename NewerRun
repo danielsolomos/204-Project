@@ -71,7 +71,7 @@ class weekp:
 
     def __repr__(self) -> str:
         return f"Week{self.week_n + 1}:\n {self.da}"
-
+#makes a list of every game tat needs to be played
 for i in range(8):
     for j in range(8):
         if i != j:
