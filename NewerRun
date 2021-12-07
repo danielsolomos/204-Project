@@ -366,6 +366,7 @@ def week_solver(week):
     constraint.add_exactly_one(H, combos[28],combos[29],combos[30],combos[31],combos[32],combos[33],combos[34])
     constraint.add_exactly_one(H, combos[35],combos[36],combos[37],combos[38],combos[39],combos[40],combos[41])
     constraint.add_exactly_one(H, combos[42],combos[43],combos[44],combos[45],combos[46],combos[47],combos[48])
+    #can only have one of each day
     constraint.add_exactly_one(H, combos[0],combos[7],combos[14],combos[21],combos[28],combos[35],combos[42])
     constraint.add_exactly_one(H, combos[1],combos[8],combos[15],combos[22],combos[29],combos[36],combos[43])
     constraint.add_exactly_one(H, combos[2],combos[9],combos[16],combos[23],combos[30],combos[37],combos[44])
